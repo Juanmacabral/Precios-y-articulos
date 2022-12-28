@@ -33,6 +33,11 @@ MANIFEST
 *.manifest
 *.spec
 
+# Ignore pickle files
+*.pickle
+
+# Ignore JSON files
+*.json
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
