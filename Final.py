@@ -71,7 +71,7 @@ articulos_general_final = articulos_general_final.astype(
 
 
 #exporto a un excel ambas tablas
-with pd.ExcelWriter(r'C:\Users\Juan M Cabral\Desktop\Reportes con python\precios.xlsx') as writer:
+with pd.ExcelWriter(r'\\NasConbra011\Administra\Reportes\precios.xlsx') as writer:
     articulos_general_final.to_excel(writer, sheet_name='Articulos general', index=False)
     jeans_final.to_excel(writer, sheet_name='Jeans', index=False)
 
