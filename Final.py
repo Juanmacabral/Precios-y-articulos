@@ -76,6 +76,7 @@ with pd.ExcelWriter(r'\\NasConbra011\Administra\Reportes\precios.xlsx') as write
     jeans_final.to_excel(writer, sheet_name='Jeans', index=False)
 
 
+
 # In[ ]:
 
 
