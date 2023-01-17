@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import json
+import time
 
 # Carga el archivo de configuración
 with open("../config.json", "r") as f:
@@ -23,6 +24,7 @@ driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())
 
 driver.get("http://192.168.0.218/CONBRA/servlet/com.conbra.login")
 
+
 # ingresar con usuario y contraseña
 title = driver.title
 driver.implicitly_wait(10)
@@ -39,11 +41,19 @@ consultas = driver.find_element(by=By.CLASS_NAME, value="smoothHeader").click()
 reporte_stock_locales = driver.find_element(by=By.XPATH, value="//a[text()=' En que local esta?']").click()
 
 # descarga del reporte
-
 driver.switch_to.frame("EMBPAGE1")
+articulos = [110017901, 130003551, 110017231]
+for articulo in articulos:
+    wait = WebDriverWait(driver, timeout=5)
+    producto_input = wait.until(EC.presence_of_element_located((By.ID, "ReportViewerControl_ctl04_ctl05_txtValue")))
+    producto_input.send_keys(articulo)
+    ver_informe = driver.find_element(by=By.ID, value='ReportViewerControl_ctl04_ctl00')
+    ver_informe.click()
+    time.sleep(2)
+    wait = WebDriverWait(driver, timeout=5)
+    boton = wait.until(EC.presence_of_element_located((By.ID, "ReportViewerControl_ctl06_ctl04_ctl00")))
+    boton.click()
+    csv = driver.find_element(by=By.XPATH, value="//a[text()='CSV (delimitado por comas)']").click()
+    producto_input = wait.until(EC.presence_of_element_located((By.ID, "ReportViewerControl_ctl04_ctl05_txtValue")))
+    producto_input.clear()
 
-wait = WebDriverWait(driver, timeout=5)
-producto = wait.until(EC.presence_of_element_located((By.ID, "ReportViewerControl_ctl04_ctl05_txtValue")))
-producto.send_keys(110017901)
-ver_informe = driver.find_element(by=By.ID, value='ReportViewerControl_ctl04_ctl00')
-ver_informe.click()
