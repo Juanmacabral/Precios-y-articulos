@@ -136,3 +136,5 @@ dmypy.json
 #Ignore all xlsx files
 *.xlsx
 *.xls
+#Ignore all csv files
+*.csv
