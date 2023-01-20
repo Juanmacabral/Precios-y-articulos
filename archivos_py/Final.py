@@ -8,9 +8,16 @@ import pandas as pd
 from pandas import ExcelWriter
 import datetime
 import pickle
+import os
 
 
 # In[ ]:
+
+
+os.chdir("C:/Users/Juan M Cabral/Desktop/Pycharm/Precios/archivos_pickle")
+
+
+# In[2]:
 
 
 # Cargar la variable desde el archivo
@@ -24,23 +31,27 @@ with open("precios_general.pickle", "rb") as f:
 # Cargar la variable precios_jean desde el archivo binario
 with open("precios_jeans.pickle", "rb") as f:
     precios_jeans = pickle.load(f)
+    
+# Cargar la variable precios_jean desde el archivo binario
+with open("filtro.pickle", "rb") as f:
+    filtro = pickle.load(f)
 
+
+
+# In[ ]:
+
+
+os.chdir("C:/Users/Juan M Cabral/Desktop/Pycharm/Precios/archivos_py")
 
 
 # In[3]:
 
 
-jeans = ['JEAN PANTALONERO', 'JEANS CAMISERO'] #lista para filtrar despues las 2 planillas que necesito
+articulos_jeans = articulos.loc[articulos['grupos de telas'].isin(filtro)] #filtro por jeans
+articulos_general = articulos.loc[~articulos['grupos de telas'].isin(filtro)]#filtro por todo lo que NO sea jeans
 
 
 # In[4]:
-
-
-articulos_jeans = articulos.loc[articulos['grupos de telas'].isin(jeans)] #filtro por jeans
-articulos_general = articulos.loc[~articulos['grupos de telas'].isin(jeans)]#filtro por todo lo que NO sea jeans
-
-
-# In[5]:
 
 
 jeans_final = articulos_jeans.merge(precios_jeans) #junto 2 planillas
@@ -74,11 +85,5 @@ articulos_general_final = articulos_general_final.astype(
 with pd.ExcelWriter(r'\\NasConbra011\Administra\Reportes\precios.xlsx') as writer:
     articulos_general_final.to_excel(writer, sheet_name='Articulos general', index=False)
     jeans_final.to_excel(writer, sheet_name='Jeans', index=False)
-
-
-
-# In[ ]:
-
-
 
 
